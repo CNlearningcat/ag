@@ -31,6 +31,12 @@ class AppConfig(BaseModel):
             raise ValueError("超时时间必须大于 0")
         return v
 
+    def set_model(self, model_name: str) -> None:
+        """设置模型名称"""
+        if model_name not in self.optional_models:
+            raise ValueError(f"模型 '{model_name}' 不在可选模型列表中")
+        self.model = self.optional_models[model_name]
+
 def load_config(config_path: Optional[str] = None) -> AppConfig:
     """
     从 TOML 文件加载配置

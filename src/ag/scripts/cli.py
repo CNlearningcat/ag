@@ -14,11 +14,19 @@ def main():
 
     # 加载配置文件 
     config = load_config()
+
+    # 模型替换 
+    if args.model is not None:
+        try:
+            config.set_model(args.model) 
+        except ValueError as e:
+            print(f"Error: {e}")
+            sys.exit(1)
     # 初始化 Agent
     agent = Agent(config)
     
     # 单次查询模式
-    if args.query != None:
+    if args.query is not None:
         try:
             conversation = agent.get_conversation()
             conversation.add_user(f'{replace_tags(args.query)}')
